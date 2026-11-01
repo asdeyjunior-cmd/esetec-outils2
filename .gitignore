@@ -1,0 +1,5 @@
+# La clé administrateur ne doit JAMAIS être envoyée sur GitHub
+cle.json
+*.json.key
+**/serviceAccount*.json
+node_modules/
