@@ -1,0 +1,8 @@
+{
+  "name": "esetec-outils",
+  "private": true,
+  "description": "Outils d'administration ESETEC Marketplace (à garder hors du dossier du site)",
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  }
+}
