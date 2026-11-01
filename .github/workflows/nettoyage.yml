@@ -1,0 +1,38 @@
+# Nettoyage automatique d'ESETEC Marketplace, toutes les 12 heures (00 h et 12 h, heure d'Abidjan)
+name: Nettoyage ESETEC
+
+on:
+  schedule:
+    - cron: "0 0,12 * * *"
+  workflow_dispatch: {}        # bouton « Run workflow » pour le lancer à la main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nettoyage
+  cancel-in-progress: false
+
+jobs:
+  nettoyage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Installer
+        run: npm install --no-audit --no-fund
+
+      - name: Nettoyer la base
+        env:
+          FIREBASE_CLE: ${{ secrets.FIREBASE_CLE }}
+        run: |
+          if [ -z "$FIREBASE_CLE" ]; then
+            echo "Le secret FIREBASE_CLE est absent : ajoutez-le dans Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+          node nettoyage.js --auto
