@@ -220,6 +220,7 @@ async function principal() {
         const d = demPub[id] || {};
         const age = maintenant - (new Date(d.date).getTime() || maintenant);
         if ((d.articleId && !articles[d.articleId]) || (d.statut !== "en_attente" && age > 60 * JOUR)) suppr("demandes_pub/" + id, "demande de publicité terminée : " + (d.articleNom || id));
+        else if (d.paiement === "en_cours" && age > 2 * JOUR) suppr("demandes_pub/" + id, "demande de publicité jamais payée : " + (d.articleNom || id));
     }
     for (const id of Object.keys(evts)) {
         const e = evts[id] || {};
